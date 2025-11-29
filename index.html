@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Vitta App - Home</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="stylesheet" href="standart.css">
+
+    <style>
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<header id="navbar">
+    <h1>
+      <a style="color: rgba(255,255,255,0.95); text-decoration: none;" href="home.html">
+        Vitta App
+      </a>
+    </h1>
+
+    <nav>
+        <a href="cadastro.html">Cadastro</a>
+        <a href="login.html">Login</a>
+        <a href="#">Sair</a>
+
+        <div class="nav-search">
+            <input type="text" placeholder="🔍 Buscar profissional...">
+        </div>
+    </nav>
+</header>
+
+<div class="search-bar" id="mainSearch">
+    <form>
+        <input type="text" placeholder="🔍 Busque seu profissional">
+    </form>
+</div>
+
+<div class="chips">
+    <a href="#" class="chip active" data-category="todos">Todos</a>
+    <a href="#" class="chip" data-category="personal-trainer">Personal Trainer (4)</a>
+    <a href="#" class="chip" data-category="pilates">Pilates (3)</a>
+    <a href="#" class="chip" data-category="fisioterapia">Fisioterapia (3)</a>
+    <a href="#" class="chip" data-category="yoga">Yoga (2)</a>
+    <a href="#" class="chip" data-category="nutricao">Nutrição (3)</a>
+    <a href="#" class="chip" data-category="funcional">Funcional (2)</a>
+    <a href="#" class="chip" data-category="massoterapia">Massoterapia (1)</a>
+</div>
+
+<div class="container-custom">
+
+    <div class="section-title">
+        <div style="display:flex; flex-direction:column;">
+            <strong style="font-size:16px;">Profissionais Disponíveis</strong>
+            <small style="color:var(--muted);">15 profissionais</small>
+        </div>
+    </div>
+
+    <div class="row-cards" id="professionalList">
+        
+        <div class="d-flex-card" data-category="personal-trainer">
+            <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img1.jpg" alt="">
+                <div class="card-body">
+                    <h5>Ana Lima</h5>
+                    <p>Personal Trainer</p>
+                    <div class="card-footer">
+                        <div class="area">Musculação</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 120/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.9</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="pilates">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img2.jpg" alt="">
+                <div class="card-body">
+                    <h5>Bruno Rocha</h5>
+                    <p>Instrutor de Pilates</p>
+                    <div class="card-footer">
+                        <div class="area">Pilates</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 140/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.8</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="nutricao">
+                   <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img3.jpg" alt="">
+                <div class="card-body">
+                    <h5>Carla Mendes</h5>
+                    <p>Nutricionista Esportiva</p>
+                    <div class="card-footer">
+                        <div class="area">Nutrição</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 180/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 5.0</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="fisioterapia">
+        <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img1.jpg" alt="">
+                <div class="card-body">
+                    <h5>Diego Santos</h5>
+                    <p>Fisioterapeuta</p>
+                    <div class="card-footer">
+                        <div class="area">Fisioterapia</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 160/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.7</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="funcional">
+                <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img2.jpg" alt="">
+                <div class="card-body">
+                    <h5>Eduardo Torres</h5>
+                    <p>Treinamento Funcional</p>
+                    <div class="card-footer">
+                        <div class="area">Funcional</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 130/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.8</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="yoga">
+                  <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img3.jpg" alt="">
+                <div class="card-body">
+                    <h5>Fernanda Souza</h5>
+                    <p>Professora de Yoga</p>
+                    <div class="card-footer">
+                        <div class="area">Yoga</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 110/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.9</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="massoterapia">
+                  <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img1.jpg" alt="">
+                <div class="card-body">
+                    <h5>Gabriel Alves</h5>
+                    <p>Massoterapeuta</p>
+                    <div class="card-footer">
+                        <div class="area">Massoterapia</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 100/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.6</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="pilates">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img2.jpg" alt="">
+                <div class="card-body">
+                    <h5>Helena Prado</h5>
+                    <p>Instrutora de Pilates</p>
+                    <div class="card-footer">
+                        <div class="area">Pilates</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 150/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 5.0</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="personal-trainer">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img3.jpg" alt="">
+                <div class="card-body">
+                    <h5>Igor Ferreira</h5>
+                    <p>Personal Trainer</p>
+                    <div class="card-footer">
+                        <div class="area">Cross Training</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 170/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.8</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="fisioterapia">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img1.jpg" alt="">
+                <div class="card-body">
+                    <h5>Julia Ramos</h5>
+                    <p>Fisioterapeuta</p>
+                    <div class="card-footer">
+                        <div class="area">Fisioterapia</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 200/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 5.0</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="nutricao">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img2.jpg" alt="">
+                <div class="card-body">
+                    <h5>Karina Duarte</h5>
+                    <p>Nutricionista</p>
+                    <div class="card-footer">
+                        <div class="area">Nutrição</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 150/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.7</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="personal-trainer">
+            <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img3.jpg" alt="">
+                <div class="card-body">
+                    <h5>Leonardo Pires</h5>
+                    <p>Personal Trainer</p>
+                    <div class="card-footer">
+                        <div class="area">HIIT</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 140/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.9</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="yoga">
+                  <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img1.jpg" alt="">
+                <div class="card-body">
+                    <h5>Mariana Costa</h5>
+                    <p>Professora de Yoga</p>
+                    <div class="card-footer">
+                        <div class="area">Yoga</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 120/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.8</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="funcional">
+                  <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img2.jpg" alt="">
+                <div class="card-body">
+                    <h5>Nathan Ribeiro</h5>
+                    <p>Treinador Funcional</p>
+                    <div class="card-footer">
+                        <div class="area">Funcional</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 130/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.7</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex-card" data-category="pilates">
+       <a href="perfil_detalhe.html" class="card-prof">
+                <img class="card-media" src="img/img3.jpg" alt="">
+                <div class="card-body">
+                    <h5>Olivia Martins</h5>
+                    <p>Instrutora de Pilates</p>
+                    <div class="card-footer">
+                        <div class="area">Pilates</div>
+                        <div style="text-align:right;">
+                            <div class="valor">R$ 160/h</div>
+                            <div style="color:var(--muted); font-size:13px;">⭐ 4.9</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Script de encolhimento da barra de navegação (já existia)
+    const navbar = document.getElementById('navbar');
+    const searchBar = document.getElementById('mainSearch');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+            navbar.classList.add('shrink');
+            searchBar.classList.add('hide');
+        } else {
+            navbar.classList.remove('shrink');
+            searchBar.classList.remove('hide');
+        }
+    });
+
+    // 🌟 Novo Script para Filtragem de Chips 🌟
+    
+    // Seleciona todos os elementos de chip e todos os cards
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.row-cards .d-flex-card');
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.preventDefault(); // Previne que o link (<a>) recarregue a página
+
+            // 1. Gerenciar Classe Ativa dos Chips: Remove 'active' de todos e adiciona ao clicado
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+
+            // 2. Obter a Categoria a Filtrar do atributo data-category
+            const filterCategory = chip.dataset.category; 
+
+            // 3. Filtrar Cards
+            cards.forEach(card => {
+                const cardCategory = card.dataset.category; // Categoria do card (ex: 'personal-trainer')
+
+                // Se o filtro for 'todos' OU a categoria do chip for igual à do card, mostra o card
+                if (filterCategory === 'todos' || filterCategory === cardCategory) {
+                    card.classList.remove('hidden');
+                } else {
+                    // Caso contrário, esconde o card
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Painel Tutor - Agenda (Protótipo)</title>
+
+<link rel="stylesheet" href="standart.css">
+
+<style>
+/* --- ESTILO DO CALENDÁRIO FALSO --- */
+.calendar-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr);
+  border-top: 1px solid #ddd;
+  margin-top: 15px;
+}
+
+.week-grid div {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.col-head {
+  font-weight: bold;
+  background: #f4f4f4;
+  border-bottom: 2px solid #ccc;
+}
+
+.time-col {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Eventos fake */
+.event {
+  background: #6b5cff;
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* --- MODAL ESTÁTICO --- */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(2px);
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.modal-box {
+  background: #fff;
+  width: 420px;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.modal-box h3 {
+  margin-bottom: 15px;
+}
+
+.modal-box label {
+  font-size: 14px;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #6b5cff;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #ddd;
+}
+
+/* erro */
+#error-box {
+  background: #ffdddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid #c33;
+  display:none;
+}
+</style>
+</head>
+
+<body class="bg-light">
+
+<div class="container-custom" style="max-width:900px; margin:20px auto;">
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+    <h2>Minha Agenda</h2>
+    <button id="btnOpenModal" class="btn btn-primary">+ Nova série (semanal)</button>
+  </div>
+
+  <!-- CALENDÁRIO FAKE -->
+  <div class="calendar-box">
+    <div class="week-grid">
+
+      <div class="col-head"></div>
+      <div class="col-head">Seg</div>
+      <div class="col-head">Ter</div>
+      <div class="col-head">Qua</div>
+      <div class="col-head">Qui</div>
+      <div class="col-head">Sex</div>
+      <div class="col-head">Sáb</div>
+      <div class="col-head">Dom</div>
+
+      <!-- 8h -->
+      <div class="time-col">08:00</div>
+      <div><div class="event">Pilates — 08h às 09h</div></div>
+      <div></div>
+      <div><div class="event">Treino — 08h às 09h</div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <!-- 9h -->
+      <div class="time-col">09:00</div>
+      <div></div>
+      <div><div class="event">Alongamento — 09h</div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <!-- 10h -->
+      <div class="time-col">10:00</div>
+      <div></div>
+      <div></div>
+      <div><div class="event">Funcional — 10h às 11h</div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL (sem Bootstrap) -->
+<div id="modal" class="modal-bg">
+  <div class="modal-box">
+    <h3>Criar série semanal</h3>
+
+    <div id="error-box"></div>
+
+    <label>Título</label>
+    <input id="title" class="input" style="width:100%; margin-bottom:10px;">
+
+    <label>Dia da semana</label>
+    <select id="weekday" class="input" style="width:100%; margin-bottom:10px;">
+      <option value="0">Segunda</option>
+      <option value="1">Terça</option>
+      <option value="2">Quarta</option>
+      <option value="3">Quinta</option>
+      <option value="4">Sexta</option>
+      <option value="5">Sábado</option>
+      <option value="6">Domingo</option>
+    </select>
+
+    <div style="display:flex; gap:10px;">
+      <div style="flex:1;">
+        <label>Início (HH:MM)</label>
+        <input id="start_time" type="time" class="input" style="width:100%;">
+      </div>
+      <div style="flex:1;">
+        <label>Término (HH:MM)</label>
+        <input id="end_time" type="time" class="input" style="width:100%;">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="closeModal">Fechar</button>
+      <button class="btn btn-primary" id="saveSeries">Criar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const modal = document.getElementById("modal");
+document.getElementById("btnOpenModal").onclick = () => modal.style.display = "flex";
+document.getElementById("closeModal").onclick = () => modal.style.display = "none";
+
+document.getElementById("saveSeries").onclick = () => {
+  const title = document.getElementById("title").value.trim();
+  const start = document.getElementById("start_time").value;
+  const end = document.getElementById("end_time").value;
+
+  if (!title || !start || !end) {
+    const box = document.getElementById("error-box");
+    box.style.display = "block";
+    box.innerText = "Preencha todos os campos obrigatórios.";
+    return;
+  }
+
+  alert("Protótipo: Série criada com sucesso!\n(sem integração real)");
+  modal.style.display = "none";
+};
+</script>
+
+</body>
+</html>

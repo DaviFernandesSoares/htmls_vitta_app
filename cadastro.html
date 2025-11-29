@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadastro — Vitta App</title>
+  <link rel="stylesheet" href="standart.css">
+</head>
+<body>
+
+<header id="navbar" aria-hidden="true">
+   <h1> <a style="color: rgba(255,255,255,0.95);text-decoration: none;" href="home.html">Vitta App</a></h1>
+</header>
+
+<main class="page-container" role="main">
+  <div class="profile-card" aria-labelledby="cadastro-title">
+    <div class="profile-main">
+      <div class="meta-row" style="align-items:center; gap:12px; margin-bottom:10px;">
+        <div class="badge-area" aria-hidden="true" style="display:inline-flex; align-items:center; gap:10px;">
+          <div style="width:52px; height:52px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--primary),var(--accent));">VA</div>
+          <div>
+            <h2 id="cadastro-title">Crie sua conta</h2>
+            <div class="sub">Rápido e seguro — gerencie agendamentos e conecte-se com pacientes</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="cadastroForm" novalidate>
+        <div class="input-box" style="margin-bottom:12px;">
+          <label for="full_name" style="display:block;font-weight:700;margin-bottom:6px;">Nome completo</label>
+          <input type="text" id="full_name" name="full_name" value="Mariana Alves" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+          <div id="nome-erro" class="error-tooltip" aria-live="polite" style="color:crimson;margin-top:6px;"></div>
+        </div>
+
+        <div class="input-box" style="margin-bottom:12px;">
+          <label for="email" style="display:block;font-weight:700;margin-bottom:6px;">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" value="mariana.trainer@example.com" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+          <div id="email-erro" class="error-tooltip" aria-live="polite" style="color:crimson;margin-top:6px;"></div>
+        </div>
+
+        <div class="input-box" style="margin-bottom:12px;">
+          <label for="password" style="display:block;font-weight:700;margin-bottom:6px;">Senha</label>
+          <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" value="secret123" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+          <div id="senha-erro" class="error-tooltip" aria-live="polite" style="color:crimson;margin-top:6px;"></div>
+        </div>
+
+        <div class="show-password-container" style="margin:10px 0;">
+          <input type="checkbox" id="show-password">
+          <label for="show-password" style="margin-left:6px;">Mostrar senha</label>
+        </div>
+
+        <button type="submit" class="book-btn" id="submit-btn" style="max-width:240px;margin-top:10px;">Criar conta</button>
+
+        <div id="mensagem" class="empty" style="display:none; margin-top:12px;"></div>
+
+        <div class="login-register" style="margin-top:12px; text-align:center;">
+          <p class="no-break">Já tem conta? <a href="home.html">Entrar</a></p>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  (function () {
+    const form = document.getElementById('cadastroForm');
+    const pwd = document.getElementById('password');
+    const show = document.getElementById('show-password');
+    const mensagem = document.getElementById('mensagem');
+    const submitBtn = document.getElementById('submit-btn');
+
+    show.addEventListener('change', () => {
+      pwd.type = show.checked ? 'text' : 'password';
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      mensagem.style.display = 'none';
+      mensagem.textContent = '';
+
+      let valid = true;
+      const nome = document.getElementById('full_name').value || '';
+      const email = document.getElementById('email').value || '';
+      if (!nome.trim()) {
+        document.getElementById('nome-erro').textContent = 'Informe seu nome';
+        valid = false;
+      } else {
+        document.getElementById('nome-erro').textContent = '';
+      }
+      if (!email.trim() || !email.includes('@')) {
+        document.getElementById('email-erro').textContent = 'Informe um email válido';
+        valid = false;
+      } else {
+        document.getElementById('email-erro').textContent = '';
+      }
+      if ((pwd.value || '').length < 6) {
+        document.getElementById('senha-erro').textContent = 'Senha deve ter pelo menos 6 caracteres';
+        valid = false;
+      } else {
+        document.getElementById('senha-erro').textContent = '';
+      }
+
+      if (!valid) return;
+
+      // simula envio
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Criando...';
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Criar conta';
+        mensagem.style.display = 'block';
+        mensagem.textContent = 'Conta criada com sucesso — você será redirecionado para a Home.';
+        mensagem.style.background = '#e7f9ef';
+        mensagem.style.border = '1px solid #d1f0db';
+        mensagem.style.color = '#065f46';
+        // simula redirecionamento
+      }, 900);
+    });
+  })();
+</script>
+
+</body>
+</html>

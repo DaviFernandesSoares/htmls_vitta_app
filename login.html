@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Vitta App</title>
+    <link rel="stylesheet" href="standart.css">
+</head>
+<body>
+
+<header id="navbar" aria-hidden="true">
+   <h1>
+      <a style="color: rgba(255,255,255,0.95); text-decoration: none;" href="home.html">
+        Vitta App
+      </a>
+   </h1>
+</header>
+
+<main class="page-container" role="main">
+    <div class="profile-card">
+        <div class="profile-main">
+
+            <h2>Entrar</h2>
+            <p class="sub">Acesse sua conta para agendar e gerenciar consultas</p>
+
+            <!-- FORMULÁRIO ESTÁTICO -->
+            <form id="form" novalidate>
+
+                <div class="input-box">
+                    <span class="icon" aria-hidden="true"><ion-icon name="mail-outline"></ion-icon></span>
+                    <input type="text" id="email" name="email" autocomplete="email" required aria-describedby="email-erro">
+                    <label for="email">Email</label>
+                    <div id="email-erro" class="error-tooltip" aria-live="polite"></div>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon" aria-hidden="true"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                    <input type="password" id="password" name="senha" autocomplete="current-password" required aria-describedby="senha-erro">
+                    <label for="password">Senha</label>
+                    <div id="senha-erro" class="error-tooltip" aria-live="polite"></div>
+                </div>
+
+                <div class="show-password-container">
+                    <input type="checkbox" id="show-password">
+                    <label for="show-password">Mostrar senha</label>
+                </div>
+
+                <button type="submit" class="book-btn" id="submit-btn">Login</button>
+
+                <div id="login-erro" class="error-message" role="status" aria-live="polite"></div>
+
+                <div class="login-register">
+                    <p>Não possui conta? <a href="cadastro.html" class="chip">Registre-se</a></p>
+                    <p><a href="#" class="chip">Esqueceu a senha?</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="profile-aside" aria-hidden="true"></div>
+    </div>
+</main>
+
+<!-- SCRIPT DE FUNCIONAMENTO DO FORM -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("form");
+    const inputEmail = document.getElementById("email");
+    const inputSenha = document.getElementById("password");
+    const showPassword = document.getElementById("show-password");
+    const erroLogin = document.getElementById("login-erro");
+    const submitBtn = document.getElementById("submit-btn");
+
+    showPassword.addEventListener("change", () => {
+        inputSenha.type = showPassword.checked ? "text" : "password";
+    });
+
+    form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        erroLogin.textContent = "";
+        let valid = true;
+
+        // validações
+        if (!inputEmail.value.includes("@")) {
+            document.getElementById("email-erro").textContent = "Informe um email válido";
+            valid = false;
+        } else document.getElementById("email-erro").textContent = "";
+
+        if (inputSenha.value.length < 6) {
+            document.getElementById("senha-erro").textContent = "Senha deve ter no mínimo 6 caracteres";
+            valid = false;
+        } else document.getElementById("senha-erro").textContent = "";
+
+        if (!valid) return;
+
+        // simulação
+        submitBtn.textContent = "Entrando...";
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Login";
+
+            // Falso "sucesso"
+            if (inputEmail.value === "teste@example.com" && inputSenha.value === "123456") {
+                window.location.href = "home.html";
+            } else {
+                erroLogin.textContent = "Email ou senha incorretos (simulação)";
+            }
+
+        }, 900);
+    });
+});
+</script>
+
+<!-- ÍCONES -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>

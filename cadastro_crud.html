@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CRUD de Usuários — Seu App</title>
+    
+    <style>
+        :root{
+            --primary: #4b0082;
+            --accent: #8a4dff;
+            --muted: #6b7280;
+            --bg: #f6f7fb;
+            --card-bg: #ffffff;
+            --radius: 12px;
+            --shadow-md: 0 12px 30px rgba(22,22,44,0.06);
+        }
+
+        /* Reset / base */
+        * { box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: #111;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* NAVBAR (MANTIDO) */
+        header{
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 24px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(75,0,130,0.12);
+            backdrop-filter: blur(4px);
+            transition: padding .22s ease, box-shadow .22s ease;
+        }
+        header h1 a {
+            color: rgba(255,255,255,0.95);
+            text-decoration: none;
+            font-size: 20px;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+        
+        /* CONTAINER PRINCIPAL (MANTIDO) */
+        .page-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+
+        /* CARD PRINCIPAL (MANTIDO) */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            /* Usado para envolver o formulário e a lista separadamente */
+            box-shadow: var(--shadow-md); 
+            margin-bottom: 30px;
+        }
+        .profile-main {
+            /* Adaptado para centralizar o formulário */
+            max-width: 600px; 
+            margin: 0 auto;
+        }
+        
+        .profile-main h2 {
+            margin: 0 0 6px 0;
+            font-size: 26px;
+            color: #2f3640;
+        }
+        .profile-main .sub { color: #666; margin-bottom: 10px; }
+
+        .meta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        /* BADGE AREA - USADO NO CABEÇALHO DO FORMULÁRIO */
+        .badge-area {
+            background: rgba(75,0,130,0.08);
+            color: #4b0082;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* BOOK BUTTON (PRIMÁRIO) */
+        .book-btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .book-btn:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+        .book-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* ESTILOS DE INPUT (MANTIDOS E COMPLEMENTADOS) */
+        .input-box input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e6e8ee;
+            width: 100%;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        .input-box input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .error-tooltip {
+            color: crimson;
+            margin-top: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .input-box label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        /* ESTILOS DE TABELA (Adaptado para o visual de card) */
+        .user-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+        }
+
+        .user-table th, .user-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e6e8ee;
+        }
+
+        .user-table th {
+            background-color: var(--bg);
+            color: var(--primary);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .user-table tr:hover {
+            background-color: #fcfcfd;
+        }
+
+        /* BOTÕES DE AÇÃO NA TABELA */
+        .action-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+
+        .edit-btn {
+            background-color: #ffc107; /* Amarelo */
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #dc3545; /* Vermelho */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    
+<header id="navbar" aria-hidden="true">
+   <h1> <a style="color: rgba(255,255,255,0.95);text-decoration: none;" href="home.html">Vitta App</a></h1>
+</header>
+
+<main class="page-container" role="main">
+    
+    <div class="profile-card" aria-labelledby="cadastro-title">
+        <div class="profile-main">
+            <div class="meta-row" style="align-items:center; gap:12px; margin-bottom:20px;">
+                <div class="badge-area" aria-hidden="true" style="display:inline-flex; align-items:center; gap:10px;">
+                    <div style="width:52px; height:52px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--primary),var(--accent));">CRD</div>
+                    <div>
+                        <h2 id="cadastro-title">Gerenciar Usuário</h2>
+                        <div class="sub" id="form-sub-title">Adicione ou edite um usuário do sistema.</div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="cadastroForm" novalidate>
+                <input type="hidden" id="editIndex" />
+                
+                <div class="input-box" style="margin-bottom:12px;">
+                    <label for="full_name">Nome completo</label>
+                    <input type="text" id="full_name" name="full_name" required>
+                    <div id="nome-erro" class="error-tooltip" aria-live="polite"></div>
+                </div>
+
+                <div class="input-box" style="margin-bottom:12px;">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                    <div id="email-erro" class="error-tooltip" aria-live="polite"></div>
+                </div>
+
+                <div class="input-box" style="margin-bottom:12px;">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+                    <div id="senha-erro" class="error-tooltip" aria-live="polite"></div>
+                </div>
+                
+                <div id="show-password-container" class="show-password-container" style="margin:10px 0;">
+                    <input type="checkbox" id="show-password">
+                    <label for="show-password" style="margin-left:6px;">Mostrar senha</label>
+                </div>
+
+                <button type="submit" class="book-btn" id="submit-btn" style="max-width:300px;margin-top:20px;">Salvar Usuário</button>
+                <button type="button" class="book-btn" id="cancel-btn" style="max-width:200px;margin-top:10px; background:var(--muted); display:none;">Cancelar Edição</button>
+
+                <div id="mensagem" style="display:none; margin-top:15px; padding:10px; border-radius:8px; text-align:center;"></div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="profile-card" id="listaUsuarios">
+        <h3 style="color: var(--primary); margin-bottom: 15px;">Lista de Usuários Cadastrados</h3>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Nome</th>
+                    <th style="width: 40%;">Email</th>
+                    <th style="text-align:center; width: 30%;">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaClientes">
+                </tbody>
+        </table>
+        <p id="tabelaVazia" style="text-align: center; color: var(--muted); padding: 20px; display: none;">Nenhum usuário cadastrado. Adicione um!</p>
+    </div>
+
+</main>
+
+<script>
+    (function () {
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+        const form = document.getElementById('cadastroForm');
+        const editIndexInput = document.getElementById('editIndex');
+        const nomeInput = document.getElementById('full_name');
+        const emailInput = document.getElementById('email');
+        const pwdInput = document.getElementById('password');
+        const showCheckbox = document.getElementById('show-password');
+        const showContainer = document.getElementById('show-password-container');
+        const mensagemDiv = document.getElementById('mensagem');
+        const submitBtn = document.getElementById('submit-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const tbody = document.getElementById("listaClientes");
+        const formSubTitle = document.getElementById("form-sub-title");
+        const tabelaVaziaMsg = document.getElementById("tabelaVazia");
+        
+        function atualizarTabela() {
+            tbody.innerHTML = "";
+            if (usuarios.length === 0) {
+                tabelaVaziaMsg.style.display = 'block';
+                return;
+            } else {
+                tabelaVaziaMsg.style.display = 'none';
+            }
+
+            usuarios.forEach((u, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${u.nome}</td>
+                    <td>${u.email}</td>
+                    <td style="text-align:center;">
+                        <button class="action-btn edit-btn" onclick="editar(${index})">Editar</button>
+                        <button class="action-btn delete-btn" onclick="excluir(${index})">Excluir</button>
+                    </td>
+                `;
+            });
+        }
+        
+        function resetForm() {
+            form.reset();
+            editIndexInput.value = "";
+            submitBtn.textContent = 'Salvar Usuário';
+            formSubTitle.textContent = 'Adicione ou edite um usuário do sistema.';
+            cancelBtn.style.display = 'none';
+            // Restaura campos de senha para criação
+            pwdInput.required = true;
+            pwdInput.style.display = 'block';
+            showContainer.style.display = 'block';
+            document.getElementById('senha-erro').textContent = '';
+            // Limpa a mensagem de feedback
+            mensagemDiv.style.display = 'none';
+        }
+        
+        // Função de Edição (U do CRUD)
+        window.editar = function(i) {
+            const user = usuarios[i];
+            
+            editIndexInput.value = i;
+            nomeInput.value = user.nome;
+            emailInput.value = user.email;
+            
+            // Oculta campos de senha e define como não obrigatório para edição
+            pwdInput.required = false;
+            pwdInput.value = ''; 
+            pwdInput.style.display = 'none';
+            showContainer.style.display = 'none';
+            
+            submitBtn.textContent = 'Atualizar Usuário';
+            formSubTitle.textContent = 'Editando informações do usuário: ' + user.nome;
+            cancelBtn.style.display = 'inline-block';
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
+        
+        // Função de Exclusão (D do CRUD)
+        window.excluir = function(i) {
+            if (confirm(`Deseja deletar o usuário ${usuarios[i].nome}?`)) {
+                usuarios.splice(i, 1);
+                localStorage.setItem("usuarios", JSON.stringify(usuarios));
+                atualizarTabela();
+                mensagemDiv.style.display = 'block';
+                mensagemDiv.textContent = 'Usuário excluído com sucesso.';
+                mensagemDiv.style.background = '#f8d7da'; // light red background
+                mensagemDiv.style.border = '1px solid #f5c6cb';
+                mensagemDiv.style.color = '#721c24'; // dark red text
+                resetForm();
+            }
+        }
+
+        // Listener para Mostrar/Esconder Senha
+        showCheckbox.addEventListener('change', () => {
+            pwdInput.type = showCheckbox.checked ? 'text' : 'password';
+        });
+
+        // Listener do botão Cancelar Edição
+        cancelBtn.addEventListener('click', () => {
+            resetForm();
+        });
+
+        // Listener do Formulário (Create e Update)
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            mensagemDiv.style.display = 'none';
+            
+            document.getElementById('nome-erro').textContent = '';
+            document.getElementById('email-erro').textContent = '';
+            document.getElementById('senha-erro').textContent = '';
+
+            let valid = true;
+            const nome = nomeInput.value || '';
+            const email = emailInput.value || '';
+            const index = editIndexInput.value;
+            const isCreating = index === "";
+
+            if (!nome.trim()) {
+                document.getElementById('nome-erro').textContent = 'Informe o nome completo';
+                valid = false;
+            }
+            if (!email.trim() || !email.includes('@') || email.length < 5) {
+                document.getElementById('email-erro').textContent = 'Informe um email válido';
+                valid = false;
+            }
+            
+            if (isCreating && (pwdInput.value || '').length < 6) {
+                document.getElementById('senha-erro').textContent = 'Senha deve ter pelo menos 6 caracteres';
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = isCreating ? 'Criando...' : 'Atualizando...';
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                
+                const novoUsuario = { nome, email };
+                
+                if (isCreating) {
+                    novoUsuario.senha = pwdInput.value; 
+                    usuarios.push(novoUsuario);
+                    mensagemDiv.textContent = 'Usuário criado com sucesso!';
+                } else {
+                    novoUsuario.senha = usuarios[index].senha; 
+                    usuarios[index] = novoUsuario;
+                    mensagemDiv.textContent = 'Usuário atualizado com sucesso!';
+                }
+
+                localStorage.setItem("usuarios", JSON.stringify(usuarios));
+                resetForm(); 
+                atualizarTabela(); 
+                
+                // Exibe mensagem de sucesso
+                mensagemDiv.style.display = 'block';
+                mensagemDiv.style.background = '#e7f9ef'; // light green background
+                mensagemDiv.style.border = '1px solid #d1f0db';
+                mensagemDiv.style.color = '#065f46'; // dark green text
+                
+            }, 500);
+        });
+
+        atualizarTabela();
+    })();
+</script>
+
+</body>
+</html>

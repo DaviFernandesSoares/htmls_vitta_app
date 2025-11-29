@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Meu Perfil Profissional — Vitta App (Protótipo)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="standart.css">
+    <style>
+      /* Pequenos ajustes locais para o formulário */
+      .step-indicator { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+      .step-pill { padding:8px 12px; border-radius:999px; background:#f1eef8; color:var(--muted); font-weight:700; font-size:13px; cursor:pointer; }
+      .step-pill.active { background:linear-gradient(90deg,var(--primary),var(--accent)); color:#fff; box-shadow:0 10px 30px rgba(75,0,130,0.08); }
+      .form-row { display:flex; gap:12px; flex-wrap:wrap; }
+      .form-col { flex:1; min-width:220px; }
+      .small { font-size:13px; color:var(--muted); }
+      .preview-box { background:#fff; padding:12px; border-radius:10px; border:1px solid #f1f3f8; }
+      .image-thumb { width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
+      .controls { display:flex; gap:8px; margin-top:12px; }
+
+      /* CORREÇÃO: esconder passos por padrão; mostrar apenas .step.active */
+      .step { display: none; }
+      .step.active { display: block; }
+    </style>
+</head>
+<body>
+
+<header id="navbar">
+    <h1><a href="home.html">Vitta App</a></h1>
+    <nav>
+        <a href="#">Mensagens</a>
+        <a href="#">Sair</a>
+        <div class="nav-search"><input type="text" placeholder="🔍 Buscar profissional..."></div>
+    </nav>
+</header>
+
+<div class="page-container">
+  <div class="profile-card">
+    <div class="profile-main">
+      <h2>Meu Perfil Profissional</h2>
+      <p class="sub">Gerencie suas informações em múltiplas etapas — protótipo estático</p>
+
+      <!-- indicador de passos -->
+      <div class="step-indicator" id="stepIndicator" aria-hidden="true">
+        <div class="step-pill active" data-step="0">1. Informações</div>
+        <div class="step-pill" data-step="1">2. Área</div>
+        <div class="step-pill" data-step="2">3. Título</div>
+        <div class="step-pill" data-step="3">4. Descrição</div>
+        <div class="step-pill" data-step="4">5. Fotos</div>
+        <div class="step-pill" data-step="5">6. Endereço & Valor</div>
+        <div class="step-pill" data-step="6">7. Revisar</div>
+      </div>
+
+      <form id="multiForm" onsubmit="return false;">
+        <!-- STEP 0: Informações -->
+        <section class="step active" id="step0">
+          <h3 class="section-title">Informações Gerais</h3>
+          <div class="form-row">
+            <div class="form-col">
+              <label for="id_nome">Nome completo</label>
+              <input id="id_nome" name="nome" type="text" value="Ana Lima" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+            </div>
+            <div class="form-col">
+              <label for="id_email">E-mail</label>
+              <input id="id_email" name="email" type="email" value="ana.personal@example.com" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" class="book-btn" onclick="gotoStep(1)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 1: Área -->
+        <section class="step" id="step1">
+          <h3 class="section-title">Área de Atuação</h3>
+          <div class="form-row">
+            <div class="form-col">
+              <label for="id_area_atuacao">Selecione a área</label>
+              <select id="id_area_atuacao" name="area_atuacao" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+                <option value="musculacao" selected>Musculação</option>
+                <option value="pilates">Pilates</option>
+                <option value="fisioterapia">Fisioterapia</option>
+                <option value="yoga">Yoga</option>
+                <option value="nutricao">Nutrição</option>
+              </select>
+              <div class="small" style="margin-top:8px;">Você pode adicionar outras áreas depois.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" onclick="gotoStep(0)">Voltar</button>
+            <button type="button" class="book-btn" onclick="gotoStep(2)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 2: Título -->
+        <section class="step" id="step2">
+          <h3 class="section-title">Título Profissional</h3>
+          <div class="form-row">
+            <div class="form-col">
+              <label for="id_titulo">Título (ex: Personal Trainer — CREF 0/0000)</label>
+              <input id="id_titulo" name="titulo" type="text" value="Personal Trainer — CREF 12/34567" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" onclick="gotoStep(1)">Voltar</button>
+            <button type="button" class="book-btn" onclick="gotoStep(3)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 3: Descrição -->
+        <section class="step" id="step3">
+          <h3 class="section-title">Descrição</h3>
+          <div class="form-row">
+            <div class="form-col">
+              <label for="id_descricao">Descreva sua experiência e abordagem</label>
+              <textarea id="id_descricao" name="descricao" rows="6" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">Personal trainer com 7 anos de atuação. Atendo em estúdio e a domicílio. Trabalho com hipertrofia, emagrecimento e reabilitação leve. Atendimento personalizado com avaliações periódicas.</textarea>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" onclick="gotoStep(2)">Voltar</button>
+            <button type="button" class="book-btn" onclick="gotoStep(4)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 4: Fotos -->
+        <section class="step" id="step4">
+          <h3 class="section-title">Fotos</h3>
+          <p class="small">Faça upload de até 4 imagens (protótipo: seleciona locais no seu computador, pré-visualiza no browser — não são enviados).</p>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+            <div class="preview-box">
+              <div style="font-weight:700;margin-bottom:8px;">Fotos selecionadas</div>
+              <div id="thumbs" style="display:flex;gap:10px;flex-wrap:wrap;">
+                <img src="https://picsum.photos/seed/pf1/200/200" class="image-thumb" alt="">
+                <img src="https://picsum.photos/seed/pf2/200/200" class="image-thumb" alt="">
+              </div>
+            </div>
+
+            <div style="flex:1; min-width:200px;">
+              <label for="id_fotos" style="display:block;font-weight:700;margin-bottom:6px;">Adicionar fotos</label>
+              <input id="id_fotos" type="file" accept="image/*" multiple>
+              <div class="small" style="margin-top:8px;">Imagens são apenas para visualização no protótipo.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" onclick="gotoStep(3)">Voltar</button>
+            <button type="button" class="book-btn" onclick="gotoStep(5)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 5: Endereço & Valor -->
+        <section class="step" id="step5">
+          <h3 class="section-title">Endereço & Valor da Sessão</h3>
+          <div class="form-row">
+            <div class="form-col">
+              <label for="id_endereco">Endereço (local de atendimento)</label>
+              <input id="id_endereco" name="endereco" type="text" value="Rua das Flores, 123 — São Paulo/SP" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+            </div>
+            <div class="form-col" style="max-width:220px;">
+              <label for="id_valor">Valor da sessão (R$)</label>
+              <input id="id_valor" name="valor_sessao" type="number" step="0.01" value="120.00" style="padding:10px;border-radius:8px;border:1px solid #e6e8ee;width:100%;">
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="button" onclick="gotoStep(4)">Voltar</button>
+            <button type="button" class="book-btn" onclick="gotoStep(6)">Próximo</button>
+          </div>
+        </section>
+
+        <!-- STEP 6: Revisar -->
+        <section class="step" id="step6">
+          <h3 class="section-title">Revisar Informações</h3>
+          <p class="sub">Confira os dados antes de salvar.</p>
+
+          <div class="preview-box" style="margin-bottom:12px;">
+            <div><strong>Nome:</strong> <span id="preview_nome">Ana Lima</span></div>
+            <div><strong>Email:</strong> <span id="preview_email">ana.personal@example.com</span></div>
+            <div><strong>Área:</strong> <span id="preview_area">Musculação</span></div>
+            <div><strong>Título:</strong> <span id="preview_titulo">Personal Trainer — CREF 12/34567</span></div>
+            <div style="margin-top:8px;"><strong>Descrição:</strong>
+              <div id="preview_descricao">Personal trainer com 7 anos de atuação...</div>
+            </div>
+            <div style="margin-top:8px;"><strong>Endereço:</strong> <span id="preview_endereco">Rua das Flores, 123 — São Paulo/SP</span></div>
+            <div><strong>Valor:</strong> R$ <span id="preview_valor">120.00</span></div>
+            <div style="margin-top:8px;">
+              <strong>Fotos:</strong>
+              <div id="preview_images" style="display:flex;gap:8px;margin-top:8px;">
+                <img src="https://picsum.photos/seed/pf1/100/100" class="image-thumb" alt="">
+                <img src="https://picsum.photos/seed/pf2/100/100" class="image-thumb" alt="">
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button type="button" onclick="gotoStep(5)">Voltar</button>
+            <button type="button" class="book-btn" id="saveBtn">Salvar perfil</button>
+          </div>
+
+          <div id="saveMessage" style="display:none; margin-top:12px;" class="empty"></div>
+        </section>
+
+      </form>
+
+    </div>
+
+    <aside class="profile-aside">
+      <div class="section-title">Dicas rápidas</div>
+      <p class="descricao">Use fotos claras e um título informativo. Valores e formas de atendimento ajudam pacientes a decidir.</p>
+
+      <div style="margin-top:18px;">
+        <div class="section-title">Pré-visualização rápida</div>
+        <div class="preview-box" style="margin-top:8px;">
+          <strong>Como aparecerá no perfil</strong>
+          <div style="margin-top:8px;">
+            <div style="font-weight:700;">Ana Lima</div>
+            <div class="small">Personal Trainer — Musculação</div>
+            <div style="margin-top:6px; font-weight:800; color:#16a34a;">R$ 120/h</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const pills = Array.from(document.querySelectorAll('.step-pill'));
+  let current = 0;
+
+  function setActive(n) {
+    steps.forEach((s,i) => s.classList.toggle('active', i === n));
+    pills.forEach((p,i) => p.classList.toggle('active', i === n));
+    current = n;
+    // scroll para topo do formulário para melhorar apresentação
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (n === 6) updatePreview();
+  }
+
+  window.gotoStep = (n) => {
+    if (typeof n !== 'number') n = parseInt(n,10);
+    if (isNaN(n) || n < 0 || n >= steps.length) return;
+    setActive(n);
+  };
+
+  // clique nas "pills" para navegar (opcional)
+  pills.forEach((p) => p.addEventListener('click', () => {
+    const idx = Number(p.dataset.step);
+    gotoStep(idx);
+  }));
+
+  // arquivo imagens: pré-visualizar thumbs
+  const fileInput = document.getElementById('id_fotos');
+  const thumbs = document.getElementById('thumbs');
+  const previewImages = document.getElementById('preview_images');
+
+  fileInput && fileInput.addEventListener('change', (ev) => {
+    thumbs.innerHTML = '';
+    previewImages && (previewImages.innerHTML = '');
+    const files = Array.from(ev.target.files).slice(0,4);
+    files.forEach((f, i) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'image-thumb';
+        thumbs.appendChild(img);
+
+        if (previewImages) {
+          const pimg = img.cloneNode();
+          previewImages.appendChild(pimg);
+        }
+      };
+      reader.readAsDataURL(f);
+    });
+  });
+
+  // atualizar preview lendo campos
+  function readField(idOrName) {
+    let el = document.getElementById(idOrName);
+    if (!el) el = document.querySelector('[name="'+idOrName+'"]');
+    if (!el) return '';
+    if (el.tagName === 'SELECT') return el.options[el.selectedIndex].text;
+    return el.value || '';
+  }
+
+  window.updatePreview = function() {
+    try {
+      document.getElementById('preview_nome').textContent = readField('id_nome') || '—';
+      document.getElementById('preview_email').textContent = readField('id_email') || '—';
+      document.getElementById('preview_area').textContent = readField('id_area_atuacao') || '—';
+      document.getElementById('preview_titulo').textContent = readField('id_titulo') || '—';
+      document.getElementById('preview_descricao').textContent = readField('id_descricao') || '—';
+      document.getElementById('preview_endereco').textContent = readField('id_endereco') || '—';
+      document.getElementById('preview_valor').textContent = readField('id_valor') || '—';
+      // imagens já gerenciadas por fileInput handler
+    } catch(e) {
+      console.warn('Erro ao atualizar preview', e);
+    }
+  };
+
+  // salvar (simulado)
+  const saveBtn = document.getElementById('saveBtn');
+  const saveMessage = document.getElementById('saveMessage');
+  saveBtn && saveBtn.addEventListener('click', () => {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Salvando...';
+    setTimeout(() => {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar perfil';
+      saveMessage.style.display = 'block';
+      saveMessage.textContent = 'Perfil salvo com sucesso (protótipo).';
+      saveMessage.style.background = '#e7f9ef';
+      saveMessage.style.border = '1px solid #d1f0db';
+      saveMessage.style.color = '#065f46';
+    }, 900);
+  });
+
+  // inicializa
+  setActive(0);
+});
+</script>
+
+</body>
+</html>
